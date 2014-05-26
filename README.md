@@ -1,5 +1,5 @@
-Concurrent Boids implementation in golang
-=========================================
+Concurrent Boids in golang
+==========================
 
 This is an implementation of [Boids](http://en.wikipedia.org/wiki/Boids) written in golang. Each boid update runs in a goroutine, allowing for concurrent updates.
 
