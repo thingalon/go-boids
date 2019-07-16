@@ -7,8 +7,8 @@ import (
 	"time"
 	"os"
 	
-	glfw "github.com/go-gl/glfw3"
-	"github.com/go-gl/gl"
+	glfw "github.com/go-gl/glfw/v3.2/glfw"
+	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/gltext"
 )
 
@@ -165,8 +165,8 @@ func main() {
 	last_frame_time = time.Now()
 
 	//	Initialize GLFW lib.
-	if ! glfw.Init() {
-		panic( "Failed to initialize GLFW3" )
+	if err := glfw.Init(); err != nil {
+		panic( err )
 	}
 	defer glfw.Terminate()
 
@@ -179,10 +179,15 @@ func main() {
 
 	window.SetFramebufferSizeCallback( on_resize )
 	window.SetKeyCallback( on_key )
-	window.SetCursorPositionCallback( on_mouse_move )	
+	window.SetCursorPosCallback( on_mouse_move )
 	window.SetCloseCallback( on_close )
 
 	window.MakeContextCurrent()
+
+	if err := gl.Init(); err != nil {
+		panic( err )
+	}
+
 	glfw.SwapInterval( 1 )
 	
 	on_resize( window, window_width, window_height )
@@ -370,7 +375,7 @@ func on_key( window *glfw.Window, key glfw.Key, scancode int, action glfw.Action
 			population_size -= 100
 		}
 	
-	case glfw.KeyEqual, glfw.KeyKpAdd:
+	case glfw.KeyEqual, glfw.KeyKPAdd:
 		if ( population_size < 20000 ) {
 			population_size += 100
 		}
